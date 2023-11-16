@@ -2,7 +2,7 @@
 
 <footer>
     <div class="footer-content">
-        <p>&copy; <?php echo date("Y"); ?> Conservatoire DOM-TECH</p>
+        <p>&copy; <?php echo date("Y"); ?> Conservatoire DOMTECH de WALA </p>
     </div>
 </footer>
 
