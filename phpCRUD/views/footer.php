@@ -1,8 +1,6 @@
-<!-- footer.php -->
-
 <footer>
     <div class="footer-content">
-        <p>&copy; <?php echo date("Y"); ?> Conservatoire DOM-TECH</p>
+        <p>&copy; <?php echo date("Y"); ?> Musicly - Music Bands and Musicians HTML5 Template. All rights reserved.</p>
     </div>
 </footer>
 

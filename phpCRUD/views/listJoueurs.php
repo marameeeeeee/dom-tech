@@ -1,91 +1,124 @@
 <?php
 include "../controller/JoueurC.php";
 
-$c = new typeC();
+$c = new JoueurC();
 $tab = $c->listJoueurs();
-
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Liste des types d'instruments</title>
-    <!-- Add your CSS styles here -->
+    <title>types des evenements</title>
     <style>
         body {
-            background-color: #f8f9fa; /* Set a light background color */
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
         }
+
         .container {
-            margin-top: 150px; /* Increased margin-top for moving components lower */
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
         }
-        h1 {
-            color: #28a745; /* Set title color to a success color */
+
+        center {
             text-align: center;
         }
+
+        h1 {
+            color: #333;
+        }
+
         h2 a {
-            color: #007bff; /* Set link color to a primary color */
+            color: #007bff;
+            text-decoration: none;
         }
+
         table {
-            border-collapse: collapse;
             width: 100%;
-            margin-top: 20px; /* Add some space between title and table */
+            border-collapse: collapse;
+            margin-top: 20px;
         }
+
         th, td {
-            border: 1px solid #dee2e6;
-            padding: 8px;
+            padding: 10px;
             text-align: left;
+            border: 1px solid #ddd;
         }
+
         th {
-            background-color: #007bff;
-            color: #ffffff;
+            background-color: #f2f2f2;
         }
-        td {
-            background-color: #ffffff;
+
+        tr:hover {
+            background-color: #f5f5f5;
         }
+
         form {
-            display: inline; /* Display form elements inline */
+            display: inline-block;
         }
+
         input[type="submit"] {
-            background-color: #28a745; /* Set button color to a success color */
-            color: #ffffff;
+            background-color: #007bff;
+            color: #fff;
             padding: 5px 10px;
             border: none;
             cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
     <?php include 'header.php'; ?>
-    <div class="container">
-        <h1>Liste des types d'instruments</h1>
-        <h2>
-            <a href="addJoueur.php">Ajouter un type d'instruments</a>
-        </h2>
-        <table>
+    <div class="container mt-200">
+        <center>
+            <h1>Liste des evenements</h1>
+            <h2>
+                <a href="addJoueur.php">Add event</a>
+            </h2>
+        </center>
+        <table border="1" align="center" width="70%">
             <tr>
-                <th>Id type</th>
-                <th>Titre</th>
-                <th>Descriptions</th>
-                <th>Actions</th>
+                <th>Id event</th>
+                <th>Nom</th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>Update</th>
+                <th>Delete</th>
             </tr>
-            <?php foreach ($tab as $joueur) { ?>
+
+            <?php
+            foreach ($tab as $joueur) {
+            ?>
                 <tr>
-                    <td><?= $joueur['id_type']; ?></td>
-                    <td><?= $joueur['titre']; ?></td>
-                    <td><?= $joueur['descriptions']; ?></td>
-                    <td>
+                    <td><?= $joueur['id_event']; ?></td>
+                    <td><?= $joueur['nom']; ?></td>
+                    <td><?= $joueur['type']; ?></td>
+                    <td><?= $joueur['description']; ?></td>
+                    <td align="center">
                         <form method="POST" action="updateJoueur.php">
-                            <input type="hidden" name="id_type" value="<?= $joueur['id_type']; ?>">
+                        <input type="hidden" name="id_event" value="<?= $joueur['id_event']; ?>">
+                            
                             <input type="submit" name="update" value="Update">
                         </form>
+                    </td>
+                    <td>
                         <form method="POST" action="deleteJoueur.php">
-                            <input type="hidden" name="id_type" value="<?= $joueur['id_type']; ?>">
+                            <input type="hidden" name="id_event" value="<?= $joueur['id_event']; ?>">
                             <input type="submit" name="delete" value="Delete">
                         </form>
                     </td>
                 </tr>
-            <?php } ?>
+            <?php
+            }
+            ?>
         </table>
     </div>
     <?php include 'footer.php'; ?>

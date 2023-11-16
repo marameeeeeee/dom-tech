@@ -1,11 +1,6 @@
-<?php 
-    include '../Controller/JoueurC.php';
-    $joueurC=new typeC();
-    $joueurC->deleteJoueur($_POST['id_type']);
-    header('Location: listJoueurs.php');
-
-
-
-
-
+<?php
+include '../Controller/JoueurC.php';
+$clientC = new JoueurC();
+$clientC->deleteJoueur($_POST["id_event"]);
+header('Location:listJoueurs.php');
 ?>

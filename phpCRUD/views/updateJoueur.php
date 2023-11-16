@@ -1,32 +1,38 @@
 <?php
 include '../Controller/JoueurC.php';
 include '../model/Joueur.php';
-
 $error = "";
-
-// create an instance of the controller
-$joueurC = new typeC();
 
 // create client
 $joueur = null;
+// create an instance of the controller
+$joueurC = new JoueurC();
 
-if (isset($_POST["titre"]) && isset($_POST["descriptions"])) {
-    if (!empty($_POST['titre']) && !empty($_POST["descriptions"])) {
+if (isset($_POST['id_event'])) {
+    $joueur = $joueurC->showJoueur($_POST['id_event']);
+}
+
+if (isset($_POST["nom"]) && isset($_POST["type"]) && isset($_POST["description"])) {
+    if (
+        !empty($_POST['nom']) &&
+        !empty($_POST["type"]) &&
+        !empty($_POST["description"])
+    ) {
         foreach ($_POST as $key => $value) {
             echo "Key: $key, Value: $value<br>";
         }
-
-        $joueur = new type(
+        $joueur = new Joueur(
             null,
-            $_POST['titre'],
-            $_POST['descriptions']
+            $_POST['nom'],
+            $_POST['type'],
+            $_POST['description']
         );
-
         var_dump($joueur);
 
-        $joueurC->updateJoueur($joueur, $_POST['id_type']);
+        $joueurC->updateJoueur($joueur, $_POST['id_event']);
 
         header('Location: listJoueurs.php');
+        exit(); // Make sure to exit after a header redirect
     } else {
         $error = "Missing information";
     }
@@ -42,8 +48,6 @@ if (isset($_POST["titre"]) && isset($_POST["descriptions"])) {
 </head>
 
 <body>
-<?php include 'header.php'; ?>
-    <div class="container mt-200">
     <button><a href="listJoueurs.php">Back to list</a></button>
     <hr>
 
@@ -52,31 +56,37 @@ if (isset($_POST["titre"]) && isset($_POST["descriptions"])) {
     </div>
 
     <?php
-    if (isset($_POST['id_type'])) {
-        $joueur = $joueurC->showJoueur($_POST['id_type']);
+    if (isset($_POST['id_event'])) {
     ?>
 
-        <form action="" method="POST">
+        <form action="" method="POST"> <!-- Corrected form action -->
             <table>
                 <tr>
-                    <td><label for="id_type">Id :</label></td>
+                    <td><label for="id_event">id_event :</label></td>
                     <td>
-                        <input type="text" id="id_type" name="id_type" value="<?php echo $_POST['id_type'] ?>" readonly />
-                        <span id="erreurid_type" style="color: red"></span>
+                        <input type="text" id="id_event" name="id_event" value="<?php echo $_POST['id_event'] ?>" readonly />
+                        <span id="erreurNom" style="color: red"></span>
                     </td>
                 </tr>
                 <tr>
-                    <td><label for="titre">Titre :</label></td>
+                    <td><label for="nom">Nom :</label></td>
                     <td>
-                        <input type="text" id="titre" name="titre" value="<?php echo $joueur['titre'] ?>" />
-                        <span id="erreurtitre" style="color: red"></span>
+                        <input type="text" id="nom" name="nom" value="<?php echo $joueur['nom'] ?>" />
+                        <span id="erreurNom" style="color: red"></span>
                     </td>
                 </tr>
                 <tr>
-                    <td><label for="descriptions">Descriptions :</label></td>
+                    <td><label for="type">type :</label></td>
                     <td>
-                        <input type="text" id="descriptions" name="descriptions" value="<?php echo $joueur['descriptions'] ?>" />
-                        <span id="erreurdescriptions" style="color: red"></span>
+                        <input type="text" id="type" name="type" value="<?php echo $joueur['type'] ?>" />
+                        <span id="erreurtypt" style="color: red"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="description">description :</label></td>
+                    <td>
+                        <input type="text" id="description" name="description" value="<?php echo $joueur['description'] ?>" />
+                        <span id="erreurEmail" style="color: red"></span>
                     </td>
                 </tr>
 
@@ -93,7 +103,6 @@ if (isset($_POST["titre"]) && isset($_POST["descriptions"])) {
     <?php
     }
     ?>
-    <?php include 'footer.php'; ?>
 </body>
 
 </html>

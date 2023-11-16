@@ -1,52 +1,69 @@
 <?php
-class type
+class Joueur
 {
-    private ?int $id_type = null;
-    private ?string $titre = null;
-    private ?string $descriptions = null;
+    private ?int $id_event = null;
+    private ?string $nom = null;
+    private ?string $type = null;
+    private ?string $description = null;
    
 
-    public function __construct($id = null, $n, $p)
+    public function __construct($id = null, $n, $p, $a)
     {
-        $this->id_type = $id;
-        $this->titre = $n;
-        $this->descriptions = $p;
+        $this->id_event = $id;
+        $this->nom = $n;
+        $this->type= $p;
+        $this->description = $a;
         
     }
 
 
-    public function getid_type()
+    public function getid_event()
     {
-        return $this->id_type;
+        return $this->id_event;
     }
 
 
-    public function gettitre()
+    public function getNom()
     {
-        return $this->titre;
+        return $this->nom;
     }
 
 
-    public function settitre($titre)
+    public function setNom($nom)
     {
-        $this->titre = $titre;
+        $this->nom = $nom;
 
         return $this;
     }
 
 
-    public function getdescriptions()
+    public function gettype()
     {
-        return $this->descriptions;
+        return $this->type;
     }
 
 
-    public function setdescriptions($descriptions)
+    public function settype($type)
     {
-        $this->descriptions = $descriptions;
+        $this->type = $type;
 
         return $this;
     }
 
 
+    public function getdescription()
+    {
+        return $this->description;
+    }
+
+
+    public function setdescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+
+    
 }

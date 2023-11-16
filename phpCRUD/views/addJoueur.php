@@ -1,4 +1,5 @@
 <?php
+
 include '../Controller/JoueurC.php';
 include '../model/Joueur.php';
 $error = "";
@@ -7,73 +8,88 @@ $error = "";
 $joueur = null;
 
 // create an instance of the controller
-$joueurC = new typeC();
+$joueurC = new JoueurC();
 if (
-    isset($_POST["titre"]) &&
-    isset($_POST["descriptions"])  
+    isset($_POST["nom"]) &&
+    isset($_POST["type"]) &&
+    isset($_POST["description"]) 
    
 ) {
     if (
-        !empty($_POST['titre']) &&
-        !empty($_POST["descriptions"]) 
+        !empty($_POST['nom']) &&
+        !empty($_POST["type"]) &&
+        !empty($_POST["description"])
        
     ) {
-        $joueur = new type(
+        $joueur = new Joueur(
             null,
-            $_POST['titre'],
-            $_POST['descriptions'],
+            $_POST['nom'],
+            $_POST['type'],
+            $_POST['description'],
            
         );
         $joueurC->addJoueur($joueur);
         header('Location:listJoueurs.php');
-    } else {
+    } else
         $error = "Missing information";
-    }
 }
+
+
 ?>
 <html lang="en">
+
 <head>
-    <!-- Your head content here -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joueur </title>
 </head>
+
 <body>
-    <?php include 'header.php'; ?>
+<?php include 'header.php'; ?>
     <div class="container mt-200">
-        <a href="listJoueurs.php">Back to list</a>
-        <hr>
-        <div id="error">
-            <?php echo $error; ?>
-        </div>
-        <form action="" method="POST">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <table>
-                        <tr>
-                            <td><label for="titre">titre :</label></td>
-                            <td>
-                                <input type="text" id="titre" name="titre" class="form-control" />
-                                <span id="erreurtitre" style="color: red"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><label for="descriptions">descriptions :</label></td>
-                            <td>
-                                <input type="text" id="descriptions" name="descriptions" class="form-control" />
-                                <span id="erreurdescriptions" style="color: red"></span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="submit" value="Save" class="btn btn-primary" />
-                            </td>
-                            <td>
-                                <input type="reset" value="Reset" class="btn btn-secondary" />
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        </form>
+    <a href="listJoueurs.php">Back to list </a>
+    <hr>
+
+    <div id="error">
+        <?php echo $error; ?>
     </div>
+
+    <form action="" method="POST">
+        <table>
+            <tr>
+                <td><label for="nom">Nom :</label></td>
+                <td>
+                    <input type="text" id="nom" name="nom" />
+                    <span id="erreurNom" style="color: red"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="type">Type :</label></td>
+                <td>
+                    <input type="text" id="type" name="type" />
+                    <span id="erreurPrenom" style="color: red"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="description">Description :</label></td>
+                <td>
+                    <input type="text" id="description" name="description" />
+                    <span id="erreurEmail" style="color: red"></span>
+                </td>
+            </tr>
+           
+
+
+            <td>
+                <input type="submit" value="Save">
+            </td>
+            <td>
+                <input type="reset" value="Reset">
+            </td>
+        </table>
+
+    </form>
     <?php include 'footer.php'; ?>
 </body>
+
 </html>

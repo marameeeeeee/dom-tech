@@ -2,12 +2,12 @@
 
 require '../config.php';
 
-class typeC
+class JoueurC
 {
 
     public function listJoueurs()
     {
-        $sql = "SELECT * FROM typess";
+        $sql = "SELECT * FROM event_type";
         $db = config::getConnexion();
         try {
             $liste = $db->query($sql);
@@ -19,10 +19,10 @@ class typeC
 
     function deleteJoueur($id)
     {
-        $sql = "DELETE FROM typess WHERE id_type = :id_type";
+        $sql = "DELETE FROM event_type WHERE id_event = :id_event";
         $db = config::getConnexion();
         $req = $db->prepare($sql);
-        $req->bindValue(':id_type', $id);
+        $req->bindValue(':id_event', $id);
 
         try {
             $req->execute();
@@ -33,31 +33,32 @@ class typeC
 
     function addJoueur($joueur)
     {
-        $title = $joueur->gettitre();
-        $description = $joueur->getdescriptions();
-
-        
-        // Valider l'entrée - autoriser uniquement des lettres
-        if (!preg_match("/^[a-zA-Z]+$/", $title)) {
+        $nom = $joueur->getnom();
+        $description = $joueur->getdescription();
+        if (!preg_match("/^[a-zA-Z]+$/", $nom)) {
             echo "Erreur : Le titre doit contenir uniquement des lettres.";
-            return;
-        }
-        if (ctype_digit(substr($description, 0, 1))) {
-            echo "Erreur : La description ne doit pas commencer par un chiffre.";
-            return;
-        }
-    
-       
-        $sql = "INSERT INTO typess
-        VALUES (NULL, :titre, :descriptions)";
+            return;}
+           
+            if (ctype_digit(substr($description, 0, 1))) {
+                echo "Erreur : La description ne doit pas commencer par un chiffre.";
+                return;
+            }
+            $type = $joueur->gettype();
+            if (!preg_match("/^[A-Z][a-zA-Z]*$/", $type)) {
+                echo "Erreur : Le typedoit commencer par une majuscule et ne contenir que des lettres.";
+                return;
+            }
+        
+        $sql = "INSERT INTO event_type (id_event, nom, type, description)  
+        VALUES (NULL, :nom, :type, :description)";
         $db = config::getConnexion();
         try {
             $query = $db->prepare($sql);
             $query->execute([
-                'titre' => $joueur->gettitre(),
-                'descriptions' => $joueur->getdescriptions(),
+                'nom' => $joueur->getNom(),
+                'type' => $joueur->getType(),
+                'description' => $joueur->getDescription(),
             ]);
-
         } catch (Exception $e) {
             echo 'Error: ' . $e->getMessage();
         }
@@ -65,7 +66,7 @@ class typeC
 
     function showJoueur($id)
     {
-        $sql = "SELECT * FROM typess WHERE id_type = $id";
+        $sql = "SELECT * FROM event_type WHERE id_event = $id";
         $db = config::getConnexion();
         try {
             $query = $db->prepare($sql);
@@ -82,17 +83,18 @@ class typeC
         try {
             $db = config::getConnexion();
             $query = $db->prepare(
-                'UPDATE typess SET 
-                    titre = :titre, 
-                   
-                    descriptions = :descriptions
-                WHERE id_type = :id_type'
+                'UPDATE event_type SET 
+                    nom = :nom, 
+                    type = :type, 
+                    description = :description
+                WHERE id_event = :id'
             );
 
             $query->execute([
-                'id_type' => $id,
-                'titre' => $joueur->gettitre(),
-                'descriptions' => $joueur->getdescriptions(),
+                'id' => $id,
+                'nom' => $joueur->getNom(),
+                'type' => $joueur->getType(),
+                'description' => $joueur->getDescription(),
             ]);
 
             echo $query->rowCount() . " records UPDATED successfully <br>";
