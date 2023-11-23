@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 class config
 {
@@ -34,3 +34,7 @@ class config
 
 
 config::getConnexion();
+
+session_start();
+$conn = mysqli_connect("localhost", "root", "", "conservatoire");
+

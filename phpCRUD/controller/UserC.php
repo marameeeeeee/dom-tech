@@ -48,13 +48,14 @@ class UserC
         }
         if (!preg_match("/^[a-zA-Z]+$/", $prenom)) {
             echo "Erreur : Le titre doit contenir uniquement des lettres.";
+         echo "prenom incorrecte !!";
             return;
         }
        
-        /*if (ctype_digit(substr($email, 0, 1))) {
+        if (ctype_digit(substr($email, 0, 1))) {
             echo "Erreur : La description ne doit pas commencer par un chiffre.";
             return;
-        }*/
+        }
     
        
         $sql = "INSERT INTO user
