@@ -1,4 +1,4 @@
- <?php
+<?php
 
 class config
 {
@@ -25,16 +25,3 @@ class config
         return self::$pdo;
     }
 }
-
-
-
-
-
-
-
-
-config::getConnexion();
-
-session_start();
-$conn = mysqli_connect("localhost", "root", "", "conservatoire");
-

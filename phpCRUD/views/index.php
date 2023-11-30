@@ -8,42 +8,37 @@ if (empty($_SESSION["id"])) {
 }
 
 $id = $_SESSION["id"];
-$stmt = $conn->prepare("SELECT * FROM tb_user WHERE id = ?");
-$stmt->bind_param("i", $id);
-$stmt->execute();
-$result = $stmt->get_result();
-$row = $result->fetch_assoc();
+$pdo = config::getConnexion();
+
+$stmt = $pdo->prepare("SELECT * FROM tb_user WHERE id = ?");
+$stmt->execute([$id]);
+$row = $stmt->fetch();
 
 if (!$row) {
     header("Location: login.php");
     exit();
 }
-// ...
+
 if (isset($_POST['submit_image'])) {
     $targetDirectory = __DIR__ . '/uploads/';
     
-    // Vérification des fichiers téléchargés
     if (!empty(array_filter($_FILES['files']['name']))) {
         foreach ($_FILES['files']['tmp_name'] as $key => $tmp_name) {
             $fileName = $_FILES['files']['name'][$key];
             $targetFile = $targetDirectory . basename($fileName);
             $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
             
-            // Vérification du type de fichier
             $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
             if (!in_array($imageFileType, $allowedTypes)) {
                 echo "Seuls les fichiers JPG, JPEG, PNG et GIF sont autorisés.";
                 exit();
             }
 
-            // Déplacement des fichiers téléchargés vers le répertoire cible
             if (move_uploaded_file($_FILES['files']['tmp_name'][$key], $targetFile)) {
                 $imagePath = 'uploads/' . $fileName;
 
-                // Insertion du chemin de l'image en base de données
-                $insertImageStmt = $conn->prepare("INSERT INTO user_images (user_id, image_path) VALUES (?, ?)");
-                $insertImageStmt->bind_param("is", $id, $imagePath);
-                $insertImageStmt->execute();
+                $insertImageStmt = $pdo->prepare("INSERT INTO user_images (user_id, image_path) VALUES (?, ?)");
+                $insertImageStmt->execute([$id, $imagePath]);
             } else {
                 echo "Erreur lors du téléchargement du fichier.";
             }
@@ -52,16 +47,14 @@ if (isset($_POST['submit_image'])) {
         exit();
     }
 }
-// ...
 
 if (isset($_POST['submit_info'])) {
     $age = $_POST['age'];
     $sex = $_POST['sex'];
     $bio = $_POST['bio'];
 
-    $updateStmt = $conn->prepare("UPDATE tb_user SET age = ?, sex = ?, bio = ? WHERE id = ?");
-    $updateStmt->bind_param("issi", $age, $sex, $bio, $id);
-    $updateStmt->execute();
+    $updateStmt = $pdo->prepare("UPDATE tb_user SET age = ?, sex = ?, bio = ? WHERE id = ?");
+    $updateStmt->execute([$age, $sex, $bio, $id]);
 
     header("Location: index.php");
     exit();
@@ -81,9 +74,8 @@ if (isset($_POST['change_photo'])) {
     if (move_uploaded_file($_FILES["profile_photo"]["tmp_name"], $targetFile)) {
         $imagePath = 'uploads/' . basename($_FILES["profile_photo"]["name"]);
 
-        $updatePhotoStmt = $conn->prepare("UPDATE tb_user SET profile_photo = ? WHERE id = ?");
-        $updatePhotoStmt->bind_param("si", $imagePath, $id);
-        $updatePhotoStmt->execute();
+        $updatePhotoStmt = $pdo->prepare("UPDATE tb_user SET profile_photo = ? WHERE id = ?");
+        $updatePhotoStmt->execute([$imagePath, $id]);
 
         header("Location: index.php");
         exit();
@@ -91,7 +83,11 @@ if (isset($_POST['change_photo'])) {
         echo "Erreur lors du téléchargement du fichier.";
     }
 }
+
 ?>
+
+<!-- ... (Votre code HTML reste inchangé) ... -->
+
 
 <!-- ... (Votre code HTML existant) ... -->
 
@@ -326,28 +322,28 @@ if (isset($_POST['change_photo'])) {
 
         <!-- Section pour afficher la galerie d'images de l'utilisateur -->
         <section class="image-gallery-section">
-            <h2>Image Gallery</h2>
-            <?php
-            // Récupérer les images associées à l'utilisateur depuis la base de données et les afficher
-            $imagesQuery = $conn->prepare("SELECT image_path FROM user_images WHERE user_id = ?");
-            $imagesQuery->bind_param("i", $id);
-            $imagesQuery->execute();
-            $imagesResult = $imagesQuery->get_result();
+    <h2>Image Gallery</h2>
+    <?php
+    // Récupérer les images associées à l'utilisateur depuis la base de données et les afficher
+    $stmt = $pdo->prepare("SELECT image_path FROM user_images WHERE user_id = ?");
+    $stmt->execute([$id]);
+    $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            while ($imageRow = $imagesResult->fetch_assoc()) {
-                $imagePath = $imageRow['image_path'];
-                echo "<img src='$imagePath'>";
-            }
-            ?>
-            <form action="index.php" method="post" enctype="multipart/form-data">
-                <input type="file" name="files[]" accept="image/*" multiple>
-                <input type="submit" name="submit_image" value="Upload New Image(s)">
-            </form>
-        </section>
-        <section class="other-users-gallery">
+    foreach ($images as $image) {
+        $imagePath = $image['image_path'];
+        echo "<img src='$imagePath'>";
+    }
+    ?>
+    <form action="index.php" method="post" enctype="multipart/form-data">
+        <input type="file" name="files[]" accept="image/*" multiple>
+        <input type="submit" name="submit_image" value="Upload New Image(s)">
+    </form>
+</section>
+<section class="other-users-gallery">
     <h2>Other Users' Image Gallery</h2>
     <a href="other_users_gallery.php">View Other Users' Gallery</a>
 </section>
+
 
 
         <section class="logout-section">

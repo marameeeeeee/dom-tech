@@ -1,13 +1,12 @@
 <?php
 require '../config.php';
-require '../Exception.php';
-require '../PHPMailer.php';
-require '../SMTP.php';
-require __DIR__ . '/../vendor/autoload.php';
-
+require_once '../Exception.php';
+require_once '../PHPMailer.php';
+require_once '../SMTP.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-//session_start();
+$conn = config::getConnexion();
 function generateUniqueCode($length = 10) {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $code = '';
@@ -18,8 +17,6 @@ function generateUniqueCode($length = 10) {
 
     return $code;
 }
-
-
 
 if (!empty($_SESSION["id"])) {
     header("Location: index.php");
@@ -33,16 +30,25 @@ if (isset($_POST["submit"])) {
     $password = $_POST["password"];
     $confirmpassword = $_POST["confirmpassword"];
 
-    $duplicate = mysqli_query($conn, "SELECT * FROM tb_user WHERE username = '$username' OR email = '$email'");
-    if (mysqli_num_rows($duplicate) > 0) {
+    $stmt = $conn->prepare("SELECT * FROM tb_user WHERE username = :username OR email = :email");
+    $stmt->bindParam(':username', $username);
+    $stmt->bindParam(':email', $email);
+    $stmt->execute();
+
+    if ($stmt->rowCount() > 0) {
         echo "<script> alert('Username or Email Has Already Been Taken'); </script>";
     } else {
         if ($password == $confirmpassword) {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $confirmationCode = generateUniqueCode();
 
-            $query = "INSERT INTO tb_user (nom, username, email, password, confirmation_code, status) VALUES ('$nom', '$username', '$email', '$hashedPassword', '$confirmationCode', 'unconfirmed')";
-            mysqli_query($conn, $query);
+            $insertStmt = $conn->prepare("INSERT INTO tb_user (nom, username, email, password, confirmation_code, status) VALUES (:nom, :username, :email, :password, :confirmation_code, 'unconfirmed')");
+            $insertStmt->bindParam(':nom', $nom);
+            $insertStmt->bindParam(':username', $username);
+            $insertStmt->bindParam(':email', $email);
+            $insertStmt->bindParam(':password', $hashedPassword);
+            $insertStmt->bindParam(':confirmation_code', $confirmationCode);
+            $insertStmt->execute();
 
             $mail = new PHPMailer(true);
             try {
@@ -54,7 +60,7 @@ if (isset($_POST["submit"])) {
                 $mail->SMTPSecure = 'tls';
                 $mail->Port = 587;
 
-                $mail->setFrom('votre_adresse_email@gmail.com', 'Votre nom');
+                $mail->setFrom('walaeddine.riahi@esprit.tn', 'walaeddine');
                 $mail->addAddress($email, $nom);
                 $mail->Subject = 'Confirm Registration';
                 $mail->Body = 'Click the link to confirm your registration: http://localhost/Conservatoire/phpCRUD/views/confirm_registration.php?code=' . $confirmationCode;

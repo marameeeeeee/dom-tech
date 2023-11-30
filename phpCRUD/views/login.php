@@ -1,6 +1,6 @@
 <?php
 require '../config.php';
-//session_start();
+session_start();
 
 if (isset($_SESSION['login'])) {
     header("Location: index.php");
@@ -11,39 +11,30 @@ if (isset($_POST["submit"])) {
     $email = $_POST["email"];
     $password = $_POST["password"];
 
-    if ($email === "admin" && $password === "admin") {
-        header("Location: listUsers.php");
-        exit();
-    }
+    $pdo = config::getConnexion();
 
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
-    }
+    $stmt = $pdo->prepare("SELECT * FROM tb_user WHERE username = :email OR email = :email");
+    $stmt->execute(['email' => $email]);
+    $user = $stmt->fetch();
 
-    $result = mysqli_query($conn, "SELECT * FROM tb_user WHERE username = '$email' OR email = '$email'");
+    if ($user) {
+        $hashedPassword = $user["password"];
 
-    if ($result) {
-        if (mysqli_num_rows($result) > 0) {
-            $row = mysqli_fetch_assoc($result);
-            $hashedPassword = $row["password"];
-
-            // Vérification du mot de passe
-            if (password_verify($password, $hashedPassword)) {
-                $_SESSION["login"] = true;
-                $_SESSION["id"] = $row["id"];
-                header("Location: index.php");
-                exit();
-            } else {
-                echo "<script> alert('Wrong Password'); </script>";
-            }
+        // Vérification du mot de passe
+        if (password_verify($password, $hashedPassword)) {
+            $_SESSION["login"] = true;
+            $_SESSION["id"] = $user["id"];
+            header("Location: index.php");
+            exit();
         } else {
-            echo "<script> alert('User Not Registered'); </script>";
+            echo "<script> alert('Wrong Password'); </script>";
         }
     } else {
-        echo "Error: " . mysqli_error($conn);
+        echo "<script> alert('User Not Registered'); </script>";
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
