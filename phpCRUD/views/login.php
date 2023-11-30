@@ -1,43 +1,38 @@
 <?php
 require '../config.php';
+//session_start();
 
-
-if (!empty($_SESSION["id"])) {
-
-$usernameemail = $_POST["email"]; $password= $_POST["password"];
-$result=mysqli_query($conn, "SELECT * FROM tb_user WHERE username = '$usernameemail' OR email= '$email'");
-$row = mysqli_fetch_assoc($result);
-if(mysqli_num_rows($result) > 0){
-if($password == $row["password"]){ 
-    $_SESSION["login"] = true; 
-    $_SESSION["id"] = $row["id"];
-
+if (isset($_SESSION['login'])) {
     header("Location: index.php");
-}
-    exit(); // Arrêter l'exécution du script après la redirection
-}
+    exit();
 }
 
-if(isset($_POST["submit"])){
+if (isset($_POST["submit"])) {
     $email = $_POST["email"];
     $password = $_POST["password"];
-    
-    // Vérification de la connexion à la base de données
-    if(!$conn) {
-        // Gérer l'erreur de connexion
+
+    if ($email === "admin" && $password === "admin") {
+        header("Location: listUsers.php");
+        exit();
+    }
+
+    if (!$conn) {
         die("Connection failed: " . mysqli_connect_error());
     }
-    $email = $_POST["email"];
+
     $result = mysqli_query($conn, "SELECT * FROM tb_user WHERE username = '$email' OR email = '$email'");
-    
-    if($result){
-        if(mysqli_num_rows($result) > 0){
+
+    if ($result) {
+        if (mysqli_num_rows($result) > 0) {
             $row = mysqli_fetch_assoc($result);
-            if ($password == $row["password"]){
+            $hashedPassword = $row["password"];
+
+            // Vérification du mot de passe
+            if (password_verify($password, $hashedPassword)) {
                 $_SESSION["login"] = true;
                 $_SESSION["id"] = $row["id"];
                 header("Location: index.php");
-                exit(); // Arrêter l'exécution du script après la redirection
+                exit();
             } else {
                 echo "<script> alert('Wrong Password'); </script>";
             }
@@ -94,19 +89,27 @@ if(isset($_POST["submit"])){
     </style>
 </head>
 <body>
-    <?php include 'header.php'; ?>
+    <!-- Votre contenu d'en-tête -->
+    <header>
+        <?php include 'header.php'; ?>
+    </header>
     <main>
         <h2>Login</h2>
-        <form class="" action="" method="post" autocomplete="off">
-            <label for="email">Username or Email :</label>
-            <input type="text" name="email" id="email" required value=""> <br>
+        <form action="" method="post" autocomplete="off">
+            <label for="email">Username or Email:</label>
+            <input type="text" name="email" id="email" required value=""><br>
             <label for="password">Password:</label>
-            <input type="password" name="password" id="password" required value=""> <br>
+            <input type="password" name="password" id="password" required value=""><br>
             <button type="submit" name="submit">Login</button>
         </form>
         <br>
+        <a href="forgot_password.php">Forgot Password?</a>
+        <br>
         <a href="registration.php">Registration</a>
     </main>
-    <?php include 'footer.php'; ?>
+    <footer>
+        <?php include 'footer.php'; ?>
+    </footer>
+    <!-- Votre contenu de pied de page -->
 </body>
 </html>

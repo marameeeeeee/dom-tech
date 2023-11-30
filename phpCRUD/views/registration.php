@@ -1,13 +1,31 @@
 <?php
 require '../config.php';
+require '../Exception.php';
+require '../PHPMailer.php';
+require '../SMTP.php';
+require __DIR__ . '/../vendor/autoload.php';
 
-if(!empty($_SESSION["id"])){
-    header("Location: index.php");
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+//session_start();
+function generateUniqueCode($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $code = '';
+
+    for ($i = 0; $i < $length; $i++) {
+        $code .= $characters[rand(0, strlen($characters) - 1)];
+    }
+
+    return $code;
 }
 
-if (isset($_POST["submit"])) {
+
+
+if (!empty($_SESSION["id"])) {
     header("Location: index.php");
+    exit();
 }
+
 if (isset($_POST["submit"])) {
     $nom = $_POST["nom"];
     $username = $_POST["username"];
@@ -20,15 +38,40 @@ if (isset($_POST["submit"])) {
         echo "<script> alert('Username or Email Has Already Been Taken'); </script>";
     } else {
         if ($password == $confirmpassword) {
-            $query = "INSERT INTO tb_user VALUES ('', '$nom', '$username', '$email', '$password')";
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $confirmationCode = generateUniqueCode();
+
+            $query = "INSERT INTO tb_user (nom, username, email, password, confirmation_code, status) VALUES ('$nom', '$username', '$email', '$hashedPassword', '$confirmationCode', 'unconfirmed')";
             mysqli_query($conn, $query);
-            echo "<script> alert('Registration Successful'); </script>";
+
+            $mail = new PHPMailer(true);
+            try {
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'walaeddine.riahi@esprit.tn';
+                $mail->Password = 'wallou12';
+                $mail->SMTPSecure = 'tls';
+                $mail->Port = 587;
+
+                $mail->setFrom('votre_adresse_email@gmail.com', 'Votre nom');
+                $mail->addAddress($email, $nom);
+                $mail->Subject = 'Confirm Registration';
+                $mail->Body = 'Click the link to confirm your registration: http://localhost/Conservatoire/phpCRUD/views/confirm_registration.php?code=' . $confirmationCode;
+
+                $mail->send();
+                echo "<script> alert('Registration Successful. Please check your email to confirm.'); </script>";
+            } catch (Exception $e) {
+                echo "<script> alert('Message could not be sent. Mailer Error: {$mail->ErrorInfo}'); </script>";
+            }
         } else {
             echo "<script> alert('Password Does Not Match'); </script>";
         }
     }
 }
 ?>
+
+<!-- Votre code HTML -->
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -37,7 +80,7 @@ if (isset($_POST["submit"])) {
     <title>Registration</title>
     <!-- Add your CSS links here -->
     <style>
-        * {
+         *{
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -99,7 +142,10 @@ if (isset($_POST["submit"])) {
     </style>
 </head>
 <body>
-    <?php include 'header.php'; ?>
+    <!-- Votre contenu d'en-tête -->
+    <header>
+        <?php include 'header.php'; ?>
+    </header>
     <main>
         <h2>Registration</h2>
         <form class="" action="" method="post" autocomplete="off">
@@ -118,6 +164,9 @@ if (isset($_POST["submit"])) {
         <br>
         <a href="login.php">Login</a>
     </main>
-    <?php include 'footer.php'; ?>
+    <!-- Votre contenu de pied de page -->
+    <footer>
+        <?php include 'footer.php'; ?>
+    </footer>
 </body>
 </html>
