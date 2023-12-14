@@ -10,14 +10,57 @@ $tab = $c->listUsers();
 
 <head>
     
-    <style>
+<style>
+        /* Styles CSS */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f6f6f6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 70%;
+            margin: 0 auto;
+        }
+
+        th,
+        td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
         .link {
-            color: blue; /* Change this to the desired color */
-            text-decoration: none; /* Remove underlines */
+            color: blue;
+            text-decoration: none;
         }
 
         .link:hover {
-            color: red; /* Change color on hover if needed */
+            color: red;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -66,6 +109,10 @@ $tab = $c->listUsers();
             <?php } ?>
         </table>
     </div>
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="indexad.php" class="link">Back to Profile</a>
+    </div>
+    
     <?php include 'footer.php'; ?>
 </body>
 

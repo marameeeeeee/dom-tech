@@ -1,0 +1,85 @@
+
+@import url('https://fonts.googleapis.com/css2? family= Roboto:wght@100;300;400;500 & family= Smooch & display=swap');
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family : 'Roboto', sans-serif;
+}
+.body {
+    /*background-color: royalblue;*/
+}
+.calendar{
+    padding: 20px 40px;
+
+}
+.calendar-header{
+    background-color:blanchedalmond;
+}
+.months-container{
+    justify-content: center;
+    gap: 40px;
+}
+.month-container{
+    background-color: brown;
+    min-width: 270px;
+    box-shadow: 0 10px 20px  rgba(0, 0, 0, 0.08);
+    border-radius: 10px ;
+}
+.prev span , .next span{
+    color: red;
+}
+.year-title {
+    color:black;
+
+}
+.month-container table{
+    padding: 10px;
+
+}
+.month-title{
+    color: bisque;
+    padding-bottom: 20px;
+    font-size: 15px !important;
+    font-family: 'Smooch', cursive ;
+}
+table.month td:first-child,
+table.month td:last-child{
+    color: blanchedalmond;
+}
+.day-header{
+    padding: 5px !important;
+    font-style: italic;
+}
+table.month td.day .day-content:hover{
+    background-color: bisque ;
+    color: bisque;
+}
+
+
+.add-rdv-button {
+    text-align: center;
+    margin-top: 20px; 
+}
+
+.add-rdv-button a {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: black; 
+    color: #fff; 
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px; 
+    transition: background-color 0.3s ease; 
+}
+
+.add-rdv-button a:hover {
+    background-color: #0056b3; 
+}
+
+
+
+
+

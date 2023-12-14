@@ -7,7 +7,7 @@ class UserC
 
     public function listUsers()
     {
-        $sql = "SELECT * FROM user";
+        $sql = "SELECT * FROM tb_user";
         $db = config::getConnexion();
         try {
             $liste = $db->query($sql);
@@ -19,10 +19,10 @@ class UserC
 
     function deleteUser($id)
     {
-        $sql = "DELETE FROM user WHERE idUser = :idUser";
+        $sql = "DELETE FROM tb_user WHERE id = :id";
         $db = config::getConnexion();
         $req = $db->prepare($sql);
-        $req->bindValue(':idUser', $id);
+        $req->bindValue(':id', $id);
 
         try {
             $req->execute();
@@ -58,7 +58,7 @@ class UserC
         }
     
        
-        $sql = "INSERT INTO user
+        $sql = "INSERT INTO tb_user
         VALUES (NULL, :nom, :prenom, :email, :tel, :types)";
         $db = config::getConnexion();
         try {
@@ -78,7 +78,7 @@ class UserC
 
     function showUser($id)
 {
-    $sql = "SELECT * FROM user WHERE idUser = $id";
+    $sql = "SELECT * FROM tb_user WHERE id = $id";
     $db = config::getConnexion();
     try {
         $query = $db->prepare($sql);
@@ -87,7 +87,7 @@ class UserC
 
         // Create a User object and pass the fetched data to its constructor
         return new User(
-            $user['idUser'],
+            $user['id'],
             $user['nom'],
             $user['prenom'],
             $user['email'],
@@ -105,17 +105,17 @@ class UserC
         try {
             $db = config::getConnexion();
             $query = $db->prepare(
-                'UPDATE user SET 
+                'UPDATE tb_user SET 
                     nom = :nom, 
                     prenom = :prenom,
                     email = :email,
                     tel = :tel,
                     types = :types
-                WHERE idUser = :idUser'
+                WHERE id = :id'
             );
 
             $query->execute([
-                'idUser' => $id,
+                'id' => $id,
                 'nom' => $user->getNom(),
                 'prenom' => $user->getPrenom(),
                 'email' => $user->getEmail(),

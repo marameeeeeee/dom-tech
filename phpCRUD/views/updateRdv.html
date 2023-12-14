@@ -1,0 +1,72 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modification de Rendez-vous</title>
+
+    <style>
+        body {
+            background-color: black;
+            color: white; 
+        }
+
+        .form-box {
+            background-color: #333; 
+            padding: 20px;
+            border-radius: 10px;
+            margin: 50px auto; 
+            width: 60%; 
+        }
+
+        .form-box label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .form-box input,
+        .form-box select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+
+        .form-box input[type="submit"] {
+            background-color: #4CAF50; 
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-200">
+        <a href="listRdvs.php">Back to list</a>
+        <hr>
+        <div class="form-box">
+            <form action="updateRdv.php" method="POST">
+                <label for="id_rv">ID : </label>
+
+                <input type="text" name="id_rv" />
+                <br>
+            <label for="date">Choisir une nouvelle date </label>
+
+                <input type="date" name="d" />
+                <br>
+           
+      
+            <label for="lieu">Choisir une nouvelle lieu </label>
+                <select name="l" >
+
+                    <option value="presentiel">Presentiel</option>
+                    <option value="enligne">En Ligne</option>
+
+                </select>
+          
+       
+
+                <input type="submit" name="updateRdv" value="Update">
+            </form>
+        </div>
+    </div>
+</body></html>

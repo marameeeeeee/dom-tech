@@ -1,0 +1,22 @@
+body {
+  display: flex;
+  align-items: center;
+
+  height: 100vh;
+  margin: 0;
+}
+
+.chart-container {
+  text-align: center;
+}
+
+#myChart {
+  height: 500px;
+  width: 80%;
+}
+dx {
+  margin-right: 500px;
+}
+a {
+  color: white !important ; /* Changer la couleur du lien à blanc */
+}

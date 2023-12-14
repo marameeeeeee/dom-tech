@@ -1,0 +1,67 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+body{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family:sans-serif ;
+    background-image: linear-gradient(to right, #5443e9 0%, #dc38f9 100%);
+}
+a,
+a:visited,
+a:active{
+    text-decoration: none;
+    color: inherit;
+
+}
+a:hover{
+    text-decoration: underline;
+
+}
+.wrapper{
+    width: 75%;
+    max-width:1000px ;
+    background-color:black ;
+    box-shadow: 0 0 15px rgba(0,0, 0, 0.3);
+
+
+}
+.contact{
+    padding: 30px 60px;
+    color: white;
+
+}
+h1{
+    margin-bottom: 60px;
+
+}
+.contact-item{
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+
+}
+ion-icon{
+    margin-right: 15px;
+}
+.contact-item:not(:last-child){
+    margin-bottom: 15px;
+}
+
+
+
+
+
+
+
+
+#map { 
+    height: 400px;
+    flex: 1;
+ }
+
+

@@ -1,0 +1,19 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.chart-container {
+    text-align: center;
+    border: 2px solid white; /* Ajoute une bordure blanche de 2 pixels autour du conteneur */
+    padding: 20px; /* Ajoute un espace de remplissage pour rendre la bordure plus visible */
+}
+
+#myChart {
+    height: 500px;
+    width: 80%;
+    max-width: 800px; /* Ajustez la largeur maximale selon vos besoins */
+}

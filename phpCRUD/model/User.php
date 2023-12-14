@@ -18,7 +18,7 @@ class User
         $this->types = $t;
     }
 
-
+    
     public function getIdUser()
     {
         return $this->idUser;

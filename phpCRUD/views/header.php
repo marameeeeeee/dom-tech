@@ -110,117 +110,48 @@
                                         <div class="main-menu main-menu-ff-space">
                                             <nav id="mobile-menu">
                                                 <ul>
-                                                    <li class="has-dropdown">
-                                                        <a href="index.html">Home</a>
-                                                        <ul class="submenu">
-                                                            <li><a href="index.html">Home Style 01</a></li>
-                                                            <li><a href="index-2.html">Home Style 02</a></li>
-                                                            <li><a href="index-3.html">Home Style 03</a></li>
-                                                            <li class="has-dropdown">
-                                                                <a href="javascript:void(0)">RTL Demos</a>
-                                                                <ul class="submenu">
-                                                                    <li><a href="index-rtl.html">Home Style 01 RTL</a>
-                                                                    </li>
-                                                                    <li><a href="index-2-rtl.html">Home Style 02 RTL</a>
-                                                                    </li>
-                                                                    <li><a href="index-3-rtl.html">Home Style 03 RTL</a>
-                                                                    </li>
-                                                                </ul>
-                                                            </li>
-                                                        </ul>
+                                                    <li>
+                                                        <a href="index.php">Profile</a>
+                                                       
                                                     </li>
                                                     <li>
-                                                        <a href="about.html">About us</a>
+                                                        <a href="recherche_instruments.php">Instruments</a>
                                                     </li>
                                                     <li>
-                                                        <a href="work-system.html">How It Works</a>
+                                                        <a href="addRdv.php">Rendez_Vous</a>
                                                     </li>
                                                     <li class="has-dropdown has-mega-menu">
-                                                        <a href="javascript:void(0)">Pages</a>
+                                                        <a href="javascript:void(0)">Evenements</a>
                                                         <ul class="mega-menu">
                                                             <li>
-                                                                <a href="javasript:void(0);"
-                                                                    class="mega-menu-title">Page
-                                                                    Layout
-                                                                    1</a>
-                                                                <ul>
-                                                                    <li><a href="index.html">Home Style 01</a></li>
-                                                                    <li><a href="index-2.html">Home Style 02</a></li>
-                                                                    <li><a href="index-3.html">Home Style 03</a></li>
-                                                                    <li><a href="index-rtl.html">Home Style 01 RTL</a>
-                                                                    </li>
-                                                                    <li><a href="index-2-rtl.html">Home Style 02 RTL</a>
-                                                                    </li>
-                                                                    <li><a href="index-3-rtl.html">Home Style 03 RTL</a>
-                                                                    </li>
-                                                                    <li><a href="about.html">About</a></li>
-
-                                                                </ul>
+                                                                <a href="searchAlbums.php"
+                                                                    class="mega-menu-title">types evenements</a>
+                                                                
                                                             </li>
                                                             <li>
-                                                                <a href="javasript:void(0);"
-                                                                    class="mega-menu-title">Page
-                                                                    Layout
-                                                                    2</a>
-                                                                <ul>
-                                                                    <li><a href="genres.html">genres</a></li>
-                                                                    <li><a href="genres-details.html">genres details</a>
-                                                                    </li>
-                                                                    <li><a href="team.html">Team</a></li>
-                                                                    <li><a href="team-details.html">team details</a>
-                                                                    </li>
-                                                                    <li><a href="enquiry-list.html">enquiry list</a>
-                                                                    </li>
-                                                                    <li><a href="work-system.html">how it works</a></li>
-                                                                    <li><a href="faq.html">FAQ</a></li>
-                                                                </ul>
+                                                                <a href="searchAlbumsdate.php"
+                                                                    class="mega-menu-title">dates evenements</a>
+                                                                
                                                             </li>
                                                             <li>
-                                                                <a href="javasript:void(0);"
-                                                                    class="mega-menu-title">Page
-                                                                    Layout
-                                                                    3</a>
-                                                                <ul>
-                                                                    <li><a href="event.html">event</a></li>
-                                                                    <li><a href="event-details.html">event details</a>
-                                                                    </li>
-                                                                    <li><a href="ideas-advice.html">ideas advice</a>
-                                                                    </li>
-                                                                    <li><a href="ideas-advice-details.html">ideas advice
-                                                                            details</a></li>
-                                                                    <li><a href="news.html">blog</a></li>
-                                                                    <li><a href="news-details.html">blog details</a>
-                                                                    </li>
-                                                                    <li><a href="join.html">Join Us</a></li>
-                                                                </ul>
+                                                                <a href="events.php"
+                                                                    class="mega-menu-title">evenements a venir</a>
+                                                              
                                                             </li>
                                                             <li>
-                                                                <a href="javasript:void(0);"
-                                                                    class="mega-menu-title">Page
-                                                                    Layout
-                                                                    4</a>
-                                                                <ul>
-                                                                    <li><a href="shop.html">Shop</a></li>
-                                                                    <li><a href="shop-details.html">Shop
-                                                                            Details</a></li>
-                                                                    <li><a href="cart.html">cart</a></li>
-                                                                    <li><a href="wishlist.html">wishlist</a></li>
-                                                                    <li><a href="login.html">Login</a></li>
-                                                                    <li><a href="signup.html">Register</a></li>
-                                                                    <li><a href="contact.html">contact</a></li>
-                                                                </ul>
+                                                                <a href="closedEvents.php"
+                                                            
+                                                                    class="mega-menu-title">evenements passés</a>
+                                                               
                                                             </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li class="has-dropdown">
-                                                        <a href="news.html">Blog</a>
-                                                        <ul class="submenu">
-                                                            <li><a href="news.html">Blog</a></li>
-                                                            <li><a href="news-details.html">Blog details</a></li>
                                                         </ul>
                                                     </li>
                                                     <li>
-                                                        <a href="contact.html"> Help Center</a>
+                                                        <a href="listPacksFront.php">Nos Packs</a>
+                                                        
+                                                    </li>
+                                                    <li>
+                                                        <a href="indexa.php"> Cours</a>
                                                     </li>
                                                 </ul>
                                             </nav>
